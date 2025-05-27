@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 4682444788126789155}
   - component: {fileID: 6794848271747822001}
   m_Layer: 0
-  m_Name: Unit
+  m_Name: TestUnit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -115,7 +115,7 @@ Transform:
   m_GameObject: {fileID: 6233560846784093286}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2
+  unitName: TestUnit
 --- !u!58 &4682444788126789155
 CircleCollider2D:
   m_ObjectHideFlags: 0
