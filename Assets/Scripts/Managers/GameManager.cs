@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class GameManager : SingletonObject<GameManager>
 {
-    public ObjectManager Object;
+    private static ObjectManager _object;
+
+    public static ObjectManager Object => _object;
 
     protected override void Awake()
     {
         base.Awake();
 
-        Object = GetComponent<ObjectManager>();
+        _object = GetComponentInChildren<ObjectManager>();
 
         DontDestroyOnLoad(this);
     }

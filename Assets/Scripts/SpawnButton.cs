@@ -4,6 +4,6 @@ public class SpawnButton : MonoBehaviour
 {
     public void Spawn()
     {
-        UnitManager.Instance.SpawnPlayerUnit();
+        StageManager.Unit.SpawnPlayerUnit();
     }
 }

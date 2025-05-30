@@ -1,27 +1,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitManager : SingletonObject<UnitManager>
+public class UnitManager : MonoBehaviour
 {
-    [SerializeField] private Transform _spawnPosition;
+    [SerializeField] private SpawnPosition _playerSpawnPosition;
+    [SerializeField] private SpawnPosition _enemySpawnPosition;
 
-    private List<Unit> _playerUnits;
+    [SerializeField] private int _playerCount;
+    [SerializeField] private int _enemyCount;
 
-    public Transform SpawnPos => _spawnPosition; 
+    private List<Unit> _playerUnits = new List<Unit>();
+    private List<Unit> _enemyUnits = new List<Unit>();
+
+    public SpawnPosition SpawnPos => _playerSpawnPosition; 
     public IReadOnlyList<Unit> PlayerUnits => _playerUnits;
+    public IReadOnlyList<Unit> EnemyUnits => _enemyUnits;
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
+        ResetUnitList(_playerUnits);
+        ResetUnitList(_enemyUnits);
+    }
 
-        _playerUnits = new List<Unit>();
+    private Unit Spawn(SpawnPosition p_spawnPosition)
+    {
+        Unit unit = GameManager.Object.SpawnUnit();
+        unit.gameObject.transform.position = p_spawnPosition.transform.position;
+        unit.SetDirection(p_spawnPosition.UnitDirection);
+
+        return unit;
     }
 
     public void SpawnPlayerUnit()
     {
-        Unit unit = ObjectManager.Instance.SpawnUnit();
+        Unit unit = Spawn(_playerSpawnPosition);
+        unit.SetColor(true);
         _playerUnits.Add(unit);
-        unit.transform.position = _spawnPosition.position;
+        _playerCount = _playerUnits.Count;
+    }
+
+    public void SpawnEnemyUnit()
+    {
+        Unit unit = Spawn(_enemySpawnPosition);
+        unit.SetColor(false);
+        _enemyUnits.Add(unit);
+        _enemyCount = _enemyUnits.Count;
     }
 
     public void DespawnPlayerUnit(Unit p_unit)
@@ -29,6 +52,18 @@ public class UnitManager : SingletonObject<UnitManager>
         if (_playerUnits.Contains(p_unit))
         {
             _playerUnits.Remove(p_unit);
+        }
+    }
+
+    private void ResetUnitList(List<Unit> p_unitList)
+    {
+        if(p_unitList == null)
+        {
+            p_unitList = new List<Unit>();
+        }
+        else
+        {
+            p_unitList.Clear();
         }
     }
 }

@@ -1,15 +1,10 @@
 using UnityEngine;
 
-public class ObjectManager : SingletonObject<ObjectManager>
+public class ObjectManager : MonoBehaviour
 {
     [SerializeField] private string _unitObjectPath;
 
     private Unit _cacheUnit;
-
-    protected override void Awake()
-    {
-        base.Awake();
-    }
 
     public Unit SpawnUnit()
     {
@@ -18,7 +13,6 @@ public class ObjectManager : SingletonObject<ObjectManager>
             _cacheUnit = Resources.Load<Unit>(_unitObjectPath);
         }
 
-        Instantiate(_cacheUnit.gameObject);
-        return _cacheUnit;
+        return Instantiate(_cacheUnit);
     }
 }

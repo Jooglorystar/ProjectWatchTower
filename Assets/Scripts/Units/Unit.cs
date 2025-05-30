@@ -3,22 +3,18 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     private Rigidbody2D _rb;
+    private SpriteRenderer _sr;
 
-
-    [SerializeField]private float _speed = 3f;
-    private float _direction = 1f;
+    [SerializeField] private float _speed = 3f;
+    [SerializeField] private float _direction;
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _sr = GetComponentInChildren<SpriteRenderer>();
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
+    private void FixedUpdate()
     {
         Move();
     }
@@ -30,8 +26,21 @@ public class Unit : MonoBehaviour
 
     public void SetDirection(float p_value)
     {
-        if(p_value == 0) _direction = 0f;
+        if (p_value == 0) _direction = 0f;
 
         _direction = p_value >= 0f ? 1f : -1f;
+    }
+
+    public void SetColor(bool p_value)
+    {
+        if(p_value)
+        {
+            _sr.color = Color.blue;
+        }
+        else
+        {
+            _sr.color = Color.red;
+
+        }
     }
 }
