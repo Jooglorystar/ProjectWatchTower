@@ -9,12 +9,15 @@ public class ObjectManager : SingletonObject<ObjectManager>
     protected override void Awake()
     {
         base.Awake();
-
-        _cacheUnit = Resources.Load<Unit>(_unitObjectPath);
     }
 
     public Unit SpawnUnit()
     {
+        if (_cacheUnit == null)
+        {
+            _cacheUnit = Resources.Load<Unit>(_unitObjectPath);
+        }
+
         Instantiate(_cacheUnit.gameObject);
         return _cacheUnit;
     }
