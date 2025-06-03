@@ -26,7 +26,7 @@ public class UnitManager : MonoBehaviour
     {
         Unit unit = GameManager.Object.SpawnUnit();
         unit.gameObject.transform.position = p_spawnPosition.transform.position;
-        unit.SetDirection(p_spawnPosition.UnitDirection);
+        unit.Movement.SetDirection(p_spawnPosition.UnitDirection);
 
         return unit;
     }
