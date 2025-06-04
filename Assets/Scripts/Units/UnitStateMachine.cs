@@ -2,18 +2,18 @@
 {
     private Unit _unit;
 
-    private UnitIdleState _idleState;
-    private UnitMoveState _moveState;
+    public UnitIdleState IdleState { get; private set; }
+    public UnitMoveState MoveState { get; private set; }
 
     public Unit Unit => _unit;
 
     public UnitStateMachine(Unit unit)
     {
         _unit = unit;
-        _idleState = new UnitIdleState(this);
-        _moveState = new UnitMoveState(this);
+        IdleState = new UnitIdleState(this);
+        MoveState = new UnitMoveState(this);
 
-        ChangeState(_moveState);
+        ChangeState(MoveState);
     }
 
     public void Update()

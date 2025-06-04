@@ -7,7 +7,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
-        _spawnTimer = 0f;
+        _spawnTimer = _spawnInterval;
     }
 
     private void Update()

@@ -10,18 +10,17 @@ public class UnitMoveState : UnitBaseState
     {
         base.EnterState();
 
-        Debug.Log("Move Start");
+        Debug.Log($"{stateMachine.Unit.name} Move Start");
+        stateMachine.Unit.Movement.SetSpeed(stateMachine.Unit.Data.UnitSpeed);
     }
 
-    public override void MoveUpdate()
+    public override void Update()
     {
-        base.MoveUpdate();
+        base.Update();
 
-        Move();
-    }
-
-    private void Move()
-    {
-        stateMachine.Unit.Movement.UnitMoveX();
+        if (DetectEnemyUnit())
+        {
+            stateMachine.ChangeState(stateMachine.IdleState);
+        }
     }
 }

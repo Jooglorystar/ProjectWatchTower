@@ -10,6 +10,17 @@ public class UnitIdleState : UnitBaseState
     {
         base.EnterState();
 
-        Debug.Log("Idle Start");
+        Debug.Log($"{stateMachine.Unit.name} Idle Start");
+        stateMachine.Unit.Movement.SetSpeed(0);
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if (!DetectEnemyUnit())
+        {
+            stateMachine.ChangeState(stateMachine.MoveState);
+        }
     }
 }

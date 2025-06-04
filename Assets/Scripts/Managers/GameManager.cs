@@ -13,5 +13,7 @@ public class GameManager : SingletonObject<GameManager>
         _object = GetComponentInChildren<ObjectManager>();
 
         DontDestroyOnLoad(this);
+
+        Application.targetFrameRate = 60;
     }
 }

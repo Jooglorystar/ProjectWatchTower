@@ -36,6 +36,7 @@ public class UnitManager : MonoBehaviour
         Unit unit = Spawn(_playerSpawnPosition);
         unit.SetColor(true);
         _playerUnits.Add(unit);
+        unit.gameObject.name = $"PlayerUnit{_playerUnits.Count}";
         _playerCount = _playerUnits.Count;
     }
 
@@ -44,6 +45,7 @@ public class UnitManager : MonoBehaviour
         Unit unit = Spawn(_enemySpawnPosition);
         unit.SetColor(false);
         _enemyUnits.Add(unit);
+        unit.gameObject.name = $"EnemyUnit{_enemyUnits.Count}";
         _enemyCount = _enemyUnits.Count;
     }
 
@@ -54,6 +56,29 @@ public class UnitManager : MonoBehaviour
             _playerUnits.Remove(p_unit);
         }
     }
+
+    private Unit GetUnit(List<Unit> p_unitList, Unit p_unit)
+    {
+        if (p_unitList.Contains(p_unit))
+        {
+            return p_unit;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public Unit GetEnemyUnit(Unit p_unit)
+    {
+        return GetUnit(_enemyUnits, p_unit);
+    }
+
+    public Unit GetPlayerUnit(Unit p_unit)
+    {
+        return GetUnit(_playerUnits, p_unit);
+    }
+
 
     private void ResetUnitList(List<Unit> p_unitList)
     {
