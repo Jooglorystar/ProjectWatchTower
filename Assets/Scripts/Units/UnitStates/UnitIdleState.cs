@@ -18,7 +18,11 @@ public class UnitIdleState : UnitBaseState
     {
         base.Update();
 
-        if (!DetectEnemyUnit())
+        if (DetectEnemyUnit(out Unit p_unit))
+        {
+            stateMachine.ChangeState(stateMachine.TargetingState);
+        }
+        else
         {
             stateMachine.ChangeState(stateMachine.MoveState);
         }

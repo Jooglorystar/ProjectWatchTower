@@ -4,6 +4,7 @@
 
     public UnitIdleState IdleState { get; private set; }
     public UnitMoveState MoveState { get; private set; }
+    public UnitTargetingState TargetingState { get; private set; }
 
     public Unit Unit => _unit;
 
@@ -12,6 +13,7 @@
         _unit = unit;
         IdleState = new UnitIdleState(this);
         MoveState = new UnitMoveState(this);
+        TargetingState = new UnitTargetingState(this);
 
         ChangeState(MoveState);
     }

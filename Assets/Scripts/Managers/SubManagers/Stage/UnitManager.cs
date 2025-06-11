@@ -16,6 +16,8 @@ public class UnitManager : MonoBehaviour
     public IReadOnlyList<Unit> PlayerUnits => _playerUnits;
     public IReadOnlyList<Unit> EnemyUnits => _enemyUnits;
 
+    [SerializeField] private UnitData[] _unitDatas;
+
     private void Awake()
     {
         ResetUnitList(_playerUnits);
@@ -38,6 +40,8 @@ public class UnitManager : MonoBehaviour
         _playerUnits.Add(unit);
         unit.gameObject.name = $"PlayerUnit{_playerUnits.Count}";
         _playerCount = _playerUnits.Count;
+        unit.SetUnitData(_unitDatas[0]);
+        unit.gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
     public void SpawnEnemyUnit()
@@ -47,6 +51,8 @@ public class UnitManager : MonoBehaviour
         _enemyUnits.Add(unit);
         unit.gameObject.name = $"EnemyUnit{_enemyUnits.Count}";
         _enemyCount = _enemyUnits.Count;
+        unit.SetUnitData(_unitDatas[1]);
+        unit.gameObject.layer = LayerMask.NameToLayer("Enemy");
     }
 
     public void DespawnPlayerUnit(Unit p_unit)

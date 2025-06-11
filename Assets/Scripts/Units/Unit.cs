@@ -1,13 +1,6 @@
 using UnityEngine;
 
-[System.Serializable]
-public class UnitData
-{
-    public float UnitSpeed;
-    public LayerMask TargetLayerMask;
-}
-
-public class Unit : MonoBehaviour
+public class Unit : MonoBehaviour, IDamagable
 {
     private SpriteRenderer _sr;
     private BoxCollider2D _collider;
@@ -21,6 +14,12 @@ public class Unit : MonoBehaviour
     public UnitData Data => _data;
     public string TargetTag;
 
+    private int curHealth;
+
+    private Unit _target;
+
+    public Unit Target => _target;
+
     private void Awake()
     {
         _sr = GetComponentInChildren<SpriteRenderer>();
@@ -29,6 +28,10 @@ public class Unit : MonoBehaviour
 
         _stateMachine = new UnitStateMachine(this);
 
+    }
+
+    private void OnEnable()
+    {
         UnitDataInit();
     }
 
@@ -45,6 +48,12 @@ public class Unit : MonoBehaviour
     private void UnitDataInit()
     {
         Movement.SetSpeed(Data.UnitSpeed);
+        curHealth = Data.UnitMaxHealth;
+    }
+
+    public void SetUnitData(UnitData p_data)
+    {
+        _data = p_data;
     }
 
     public void SetColor(bool p_value)
@@ -52,14 +61,32 @@ public class Unit : MonoBehaviour
         if (p_value)
         {
             _sr.color = Color.blue;
-            Data.TargetLayerMask = 1 << LayerMask.NameToLayer("Enemy");
-            gameObject.layer = LayerMask.NameToLayer("Player");
         }
         else
         {
             _sr.color = Color.red;
-            Data.TargetLayerMask = 1 << LayerMask.NameToLayer("Player");
-            gameObject.layer = LayerMask.NameToLayer("Enemy");
         }
+    }
+
+    public bool Damaged(int p_value)
+    {
+        curHealth -= p_value;
+
+        if (curHealth <= 0)
+        {
+            Die();
+            return true;
+        }
+        return false;
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
+    }
+
+    public void SetTarget(Unit p_target)
+    {
+        _target = p_target;
     }
 }

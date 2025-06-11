@@ -149,11 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31b776c7a08f8ee4793913f756bcedf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _data:
-    UnitSpeed: 1
-    TargetLayerMask:
-      serializedVersion: 2
-      m_Bits: 0
+  _data: {fileID: 11400000, guid: 0fd10134a6651954a8f53b65a630c295, type: 2}
   TargetTag: 
 --- !u!50 &6794848271747822001
 Rigidbody2D:
