@@ -15,4 +15,9 @@ public class ObjectManager : MonoBehaviour
 
         return Instantiate(_cacheUnit);
     }
+
+    public void DespawnUnit(Unit p_unit)
+    {
+        p_unit.gameObject.SetActive(false);
+    }
 }

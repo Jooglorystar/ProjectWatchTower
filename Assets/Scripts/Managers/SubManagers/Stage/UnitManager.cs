@@ -55,12 +55,21 @@ public class UnitManager : MonoBehaviour
         unit.gameObject.layer = LayerMask.NameToLayer("Enemy");
     }
 
-    public void DespawnPlayerUnit(Unit p_unit)
+    public void Despawn(Unit p_unit)
     {
         if (_playerUnits.Contains(p_unit))
         {
             _playerUnits.Remove(p_unit);
         }
+        else if(_enemyUnits.Contains(p_unit))
+        {
+            _enemyUnits.Remove(p_unit);
+        }
+        else
+        {
+            Debug.Log("SomethingWrong");
+        }
+        GameManager.Object.DespawnUnit(p_unit);
     }
 
     private Unit GetUnit(List<Unit> p_unitList, Unit p_unit)

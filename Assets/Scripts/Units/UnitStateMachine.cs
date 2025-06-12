@@ -15,7 +15,7 @@
         MoveState = new UnitMoveState(this);
         TargetingState = new UnitTargetingState(this);
 
-        ChangeState(MoveState);
+        ChangeState(IdleState);
     }
 
     public void Update()

@@ -10,7 +10,6 @@ public class UnitMoveState : UnitBaseState
     {
         base.EnterState();
 
-        Debug.Log($"{stateMachine.Unit.name} Move Start");
         stateMachine.Unit.Movement.SetSpeed(stateMachine.Unit.Data.UnitSpeed);
     }
 
@@ -18,9 +17,8 @@ public class UnitMoveState : UnitBaseState
     {
         base.Update();
 
-        if (DetectEnemyUnit(out Unit p_unit))
+        if (stateMachine.Unit.DetectTarget())
         {
-            stateMachine.Unit.SetTarget(p_unit);
             stateMachine.ChangeState(stateMachine.TargetingState);
         }
     }

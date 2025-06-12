@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UnitMaxHealth: 10
   UnitAttack: 1
-  UnitSpeed: 3
+  UnitAttackDelay: 0.5
+  UnitSpeed: 1
+  UnitAttackRange: 1
   TargetLayerMask:
     serializedVersion: 2
     m_Bits: 64

@@ -10,7 +10,6 @@ public class UnitIdleState : UnitBaseState
     {
         base.EnterState();
 
-        Debug.Log($"{stateMachine.Unit.name} Idle Start");
         stateMachine.Unit.Movement.SetSpeed(0);
     }
 
@@ -18,7 +17,7 @@ public class UnitIdleState : UnitBaseState
     {
         base.Update();
 
-        if (DetectEnemyUnit(out Unit p_unit))
+        if(stateMachine.Unit.DetectTarget())
         {
             stateMachine.ChangeState(stateMachine.TargetingState);
         }

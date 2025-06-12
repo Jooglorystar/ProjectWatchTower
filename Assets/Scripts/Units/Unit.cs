@@ -12,7 +12,6 @@ public class Unit : MonoBehaviour, IDamagable
     public UnitMovement Movement => _movement;
     public BoxCollider2D Collider => _collider;
     public UnitData Data => _data;
-    public string TargetTag;
 
     private int curHealth;
 
@@ -68,6 +67,33 @@ public class Unit : MonoBehaviour, IDamagable
         }
     }
 
+    public bool DetectTarget()
+    {
+        RaycastHit2D hit;
+
+        Vector2 direction = Movement.Direction.normalized;
+        Vector2 origin = (Vector2)transform.position + (direction * 0.5f);
+
+        hit = Physics2D.Raycast(origin, direction, Data.UnitAttackRange, Data.TargetLayerMask);
+        Debug.DrawRay(origin, direction * Data.UnitAttackRange, Color.red);
+        if (hit)
+        {
+            _target = hit.collider.gameObject.GetComponent<Unit>();
+            return true;
+        }
+        return false;
+    }
+
+    public void Attack()
+    {
+        if (_target == null) return;
+
+        if (_target.Damaged(_data.UnitAttack))
+        {
+            _target = null;
+        }
+    }
+
     public bool Damaged(int p_value)
     {
         curHealth -= p_value;
@@ -82,11 +108,6 @@ public class Unit : MonoBehaviour, IDamagable
 
     private void Die()
     {
-        Destroy(gameObject);
-    }
-
-    public void SetTarget(Unit p_target)
-    {
-        _target = p_target;
+        StageManager.Unit.Despawn(this);
     }
 }

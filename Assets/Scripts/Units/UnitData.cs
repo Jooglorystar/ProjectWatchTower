@@ -6,6 +6,8 @@ public class UnitData : ScriptableObject
 {
     public int UnitMaxHealth;
     public int UnitAttack;
+    public float UnitAttackDelay;
     public float UnitSpeed;
+    public float UnitAttackRange;
     public LayerMask TargetLayerMask;
 }

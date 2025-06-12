@@ -9,7 +9,6 @@ public class UnitTargetingState : UnitBaseState
     {
         base.EnterState();
 
-        Debug.Log($"{stateMachine.Unit.name} Find Target");
         stateMachine.Unit.Movement.SetSpeed(0);
     }
 
@@ -17,33 +16,31 @@ public class UnitTargetingState : UnitBaseState
     {
         base.Update();
 
-        AttackTimer();
-
-        if(stateMachine.Unit.Target == null)
-        {
-            stateMachine.ChangeState(stateMachine.MoveState);
-        }
+        TryAttack();
     }
 
-    private float _attackInterval = 1f;
     private float _timer = 0f;
 
     private void AttackTimer()
     {
         _timer += Time.deltaTime;
 
-        if (_timer >= _attackInterval)
+        if (_timer >= stateMachine.Unit.Data.UnitAttackDelay)
         {
-            Attack();
+            stateMachine.Unit.Attack();
             _timer = 0f;
         }
     }
 
-    private void Attack()
+    private bool TryAttack()
     {
-        if(stateMachine.Unit.Target.Damaged(stateMachine.Unit.Data.UnitAttack))
+        if(stateMachine.Unit.Target == null)
         {
-            stateMachine.Unit.SetTarget(null);
+            stateMachine.ChangeState(stateMachine.IdleState);
+            return false;
         }
+        AttackTimer();
+
+        return true;
     }
 }
