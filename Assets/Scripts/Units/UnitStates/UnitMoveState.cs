@@ -10,6 +10,7 @@ public class UnitMoveState : UnitBaseState
     {
         base.EnterState();
 
+        Debug.Log("Move");
         stateMachine.Unit.Movement.SetSpeed(stateMachine.Unit.Data.UnitSpeed);
     }
 

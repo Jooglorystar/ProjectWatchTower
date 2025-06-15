@@ -2,6 +2,8 @@
 
 public class UnitTargetingState : UnitBaseState
 {
+    private float _timer = 0f;
+
     public UnitTargetingState(UnitStateMachine p_stateMachine) : base(p_stateMachine)
     {
     }
@@ -10,16 +12,24 @@ public class UnitTargetingState : UnitBaseState
         base.EnterState();
 
         stateMachine.Unit.Movement.SetSpeed(0);
+
+        _timer = 0f;
     }
 
     public override void Update()
     {
         base.Update();
 
-        TryAttack();
+        if(stateMachine.Unit.Target != null)
+        {
+            AttackTimer();
+        }
+        else
+        {
+            stateMachine.ChangeState(stateMachine.IdleState);
+        }
     }
 
-    private float _timer = 0f;
 
     private void AttackTimer()
     {
@@ -27,20 +37,15 @@ public class UnitTargetingState : UnitBaseState
 
         if (_timer >= stateMachine.Unit.Data.UnitAttackDelay)
         {
-            stateMachine.Unit.Attack();
-            _timer = 0f;
+            if(stateMachine.Unit.DetectTarget())
+            {
+                stateMachine.Unit.Attack();
+                _timer = 0f;
+            }
+            else
+            {
+                stateMachine.ChangeState(stateMachine.IdleState);
+            }
         }
-    }
-
-    private bool TryAttack()
-    {
-        if(stateMachine.Unit.Target == null)
-        {
-            stateMachine.ChangeState(stateMachine.IdleState);
-            return false;
-        }
-        AttackTimer();
-
-        return true;
     }
 }

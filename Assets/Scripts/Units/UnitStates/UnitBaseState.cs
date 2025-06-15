@@ -23,6 +23,10 @@ public abstract class UnitBaseState : IState
 
     public virtual void Update()
     {
+        if (stateMachine.CurrentState != stateMachine.IdleState && StageManager.IsGameEnd())
+        {
+            stateMachine.ChangeState(stateMachine.IdleState);
+        }
     }
 
     public virtual void MoveUpdate()

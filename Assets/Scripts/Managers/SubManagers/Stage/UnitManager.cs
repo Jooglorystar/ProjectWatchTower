@@ -3,16 +3,9 @@ using UnityEngine;
 
 public class UnitManager : MonoBehaviour
 {
-    [SerializeField] private SpawnPosition _playerSpawnPosition;
-    [SerializeField] private SpawnPosition _enemySpawnPosition;
-
-    [SerializeField] private int _playerCount;
-    [SerializeField] private int _enemyCount;
-
     private List<Unit> _playerUnits = new List<Unit>();
     private List<Unit> _enemyUnits = new List<Unit>();
 
-    public SpawnPosition SpawnPos => _playerSpawnPosition; 
     public IReadOnlyList<Unit> PlayerUnits => _playerUnits;
     public IReadOnlyList<Unit> EnemyUnits => _enemyUnits;
 
@@ -24,34 +17,36 @@ public class UnitManager : MonoBehaviour
         ResetUnitList(_enemyUnits);
     }
 
-    private Unit Spawn(SpawnPosition p_spawnPosition)
+    private Unit Spawn(SpawnPosition p_spawnPosition, UnitData p_unitData)
     {
         Unit unit = GameManager.Object.SpawnUnit();
         unit.gameObject.transform.position = p_spawnPosition.transform.position;
         unit.Movement.SetDirection(p_spawnPosition.UnitDirection);
+
+        unit.SetUnitData(p_unitData);
+
+        StageManager.Instance.TargetDict.Add(unit.gameObject, unit);
 
         return unit;
     }
 
     public void SpawnPlayerUnit()
     {
-        Unit unit = Spawn(_playerSpawnPosition);
+        Unit unit = Spawn(StageManager.Instance.PlayerSpawnPosition, _unitDatas[0]);
         unit.SetColor(true);
+
         _playerUnits.Add(unit);
-        unit.gameObject.name = $"PlayerUnit{_playerUnits.Count}";
-        _playerCount = _playerUnits.Count;
-        unit.SetUnitData(_unitDatas[0]);
+
         unit.gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
     public void SpawnEnemyUnit()
     {
-        Unit unit = Spawn(_enemySpawnPosition);
+        Unit unit = Spawn(StageManager.Instance.EnemySpawnPosition, _unitDatas[1]);
         unit.SetColor(false);
+
         _enemyUnits.Add(unit);
-        unit.gameObject.name = $"EnemyUnit{_enemyUnits.Count}";
-        _enemyCount = _enemyUnits.Count;
-        unit.SetUnitData(_unitDatas[1]);
+
         unit.gameObject.layer = LayerMask.NameToLayer("Enemy");
     }
 
@@ -69,29 +64,27 @@ public class UnitManager : MonoBehaviour
         {
             Debug.Log("SomethingWrong");
         }
+
+        if(StageManager.Instance.TargetDict.ContainsKey(p_unit.gameObject))
+        {
+            StageManager.Instance.TargetDict.Remove(p_unit.gameObject);
+        }
+
         GameManager.Object.DespawnUnit(p_unit);
     }
 
-    private Unit GetUnit(List<Unit> p_unitList, Unit p_unit)
+    public bool IsEnemyUnitEmpty(Unit p_unit)
     {
-        if (p_unitList.Contains(p_unit))
+        if(_enemyUnits.Contains(p_unit) && _playerUnits.Count <= 0)
         {
-            return p_unit;
+            return true;
         }
-        else
+        else if(_playerUnits.Contains(p_unit) && _enemyUnits.Count <= 0)
         {
-            return null;
+            return true;
         }
-    }
 
-    public Unit GetEnemyUnit(Unit p_unit)
-    {
-        return GetUnit(_enemyUnits, p_unit);
-    }
-
-    public Unit GetPlayerUnit(Unit p_unit)
-    {
-        return GetUnit(_playerUnits, p_unit);
+        return false;
     }
 
 

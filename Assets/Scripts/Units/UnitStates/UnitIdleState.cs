@@ -10,6 +10,7 @@ public class UnitIdleState : UnitBaseState
     {
         base.EnterState();
 
+        Debug.Log("Idle");
         stateMachine.Unit.Movement.SetSpeed(0);
     }
 
@@ -17,13 +18,16 @@ public class UnitIdleState : UnitBaseState
     {
         base.Update();
 
-        if(stateMachine.Unit.DetectTarget())
+        if(!StageManager.IsGameEnd())
         {
-            stateMachine.ChangeState(stateMachine.TargetingState);
-        }
-        else
-        {
-            stateMachine.ChangeState(stateMachine.MoveState);
+            if (stateMachine.Unit.DetectTarget())
+            {
+                stateMachine.ChangeState(stateMachine.TargetingState);
+            }
+            else
+            {
+                stateMachine.ChangeState(stateMachine.MoveState);
+            }
         }
     }
 }

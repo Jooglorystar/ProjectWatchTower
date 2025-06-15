@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Unit : MonoBehaviour, IDamagable
 {
@@ -8,16 +9,20 @@ public class Unit : MonoBehaviour, IDamagable
     private UnitMovement _movement;
     [SerializeField] private UnitData _data;
 
+    [SerializeField] private Image _healthBar;
+
     public UnitStateMachine StateMachine => _stateMachine;
     public UnitMovement Movement => _movement;
     public BoxCollider2D Collider => _collider;
     public UnitData Data => _data;
 
-    private int curHealth;
+    private int _curHealth;
 
-    private Unit _target;
+    public int CurHealth => _curHealth;
 
-    public Unit Target => _target;
+    private IDamagable _target;
+
+    public IDamagable Target => _target;
 
     private void Awake()
     {
@@ -26,7 +31,6 @@ public class Unit : MonoBehaviour, IDamagable
         _movement = GetComponent<UnitMovement>();
 
         _stateMachine = new UnitStateMachine(this);
-
     }
 
     private void OnEnable()
@@ -46,8 +50,8 @@ public class Unit : MonoBehaviour, IDamagable
 
     private void UnitDataInit()
     {
-        Movement.SetSpeed(Data.UnitSpeed);
-        curHealth = Data.UnitMaxHealth;
+        _curHealth = Data.UnitMaxHealth;
+        _healthBar.fillAmount = _curHealth / Data.UnitMaxHealth;
     }
 
     public void SetUnitData(UnitData p_data)
@@ -75,12 +79,13 @@ public class Unit : MonoBehaviour, IDamagable
         Vector2 origin = (Vector2)transform.position + (direction * 0.5f);
 
         hit = Physics2D.Raycast(origin, direction, Data.UnitAttackRange, Data.TargetLayerMask);
-        Debug.DrawRay(origin, direction * Data.UnitAttackRange, Color.red);
+
         if (hit)
         {
-            _target = hit.collider.gameObject.GetComponent<Unit>();
+            _target = StageManager.Instance.GetTargetFromDictionary(hit.collider.gameObject);
             return true;
         }
+        _target = null;
         return false;
     }
 
@@ -96,9 +101,9 @@ public class Unit : MonoBehaviour, IDamagable
 
     public bool Damaged(int p_value)
     {
-        curHealth -= p_value;
-
-        if (curHealth <= 0)
+        _curHealth -= p_value;
+        _healthBar.fillAmount = (float)_curHealth / Data.UnitMaxHealth;
+        if (_curHealth <= 0)
         {
             Die();
             return true;

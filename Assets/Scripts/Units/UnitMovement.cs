@@ -3,6 +3,7 @@
 public class UnitMovement : MonoBehaviour
 {
     private Rigidbody2D _rb;
+    private SpriteRenderer _sr;
 
     [SerializeField] private float _speed = 3f;
     [SerializeField] private Vector2 _direction = new Vector2(0, 0);
@@ -13,6 +14,7 @@ public class UnitMovement : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
+        _sr = GetComponentInChildren<SpriteRenderer>();
     }
 
     public void UnitMoveX()
@@ -27,17 +29,15 @@ public class UnitMovement : MonoBehaviour
 
     public void SetDirection(float p_value)
     {
-        if (p_value == 0) _direction.x = 0f;
-
         _direction.x = p_value >= 0f ? 1f : -1f;
 
         if (_direction.x >= 0)
         {
-            gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+            _sr.flipX = false;
         }
         else
         {
-            gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
+            _sr.flipX = true;
         }
     }
 }
