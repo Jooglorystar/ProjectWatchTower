@@ -38,6 +38,7 @@ public class DefenceCore : MonoBehaviour, IDamagable
         _healthBar.fillAmount = (float)_curHealth / _data.MaxHealth;
         if (_curHealth <= 0)
         {
+            StageManager.Instance.ActivateEndPanel();
             return true;
         }
         return false;

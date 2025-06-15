@@ -7,7 +7,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Awake()
     {
-        _spawnTimer = _spawnInterval;
+        _spawnTimer = 0;
     }
 
     private void Update()
@@ -23,7 +23,7 @@ public class EnemyManager : MonoBehaviour
 
     private void SpawnEnemyUnit()
     {
-        if(StageManager.IsGameEnd())
+        if(!StageManager.IsGameEnd())
         {
             StageManager.Unit.SpawnEnemyUnit();
         }

@@ -13,6 +13,7 @@ public class StageManager : SingletonObject<StageManager>
 
     [SerializeField] private SpawnPosition _playerSpawnPosition;
     [SerializeField] private SpawnPosition _enemySpawnPosition;
+    [SerializeField] private UIEndPanel _endPanel;
 
     private Dictionary<GameObject, IDamagable> _targetDict = new Dictionary<GameObject, IDamagable>();
     
@@ -74,5 +75,10 @@ public class StageManager : SingletonObject<StageManager>
             return true;
         }
         return false;
+    }
+
+    public void ActivateEndPanel()
+    {
+        _endPanel.gameObject.SetActive(true);
     }
 }

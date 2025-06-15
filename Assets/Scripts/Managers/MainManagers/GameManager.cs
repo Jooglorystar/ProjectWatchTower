@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : SingletonObject<GameManager>
 {
@@ -15,5 +16,15 @@ public class GameManager : SingletonObject<GameManager>
         DontDestroyOnLoad(this);
 
         Application.targetFrameRate = 60;
+    }
+
+    public void StartStage()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void GoToLobby()
+    {
+        SceneManager.LoadScene(0);
     }
 }
