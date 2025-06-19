@@ -4,6 +4,8 @@
 [System.Serializable]
 public class UnitData : ScriptableObject
 {
+    public int UnitID;
+    public int UnitCost;
     public int UnitMaxHealth;
     public int UnitAttack;
     public float UnitAttackDelay;

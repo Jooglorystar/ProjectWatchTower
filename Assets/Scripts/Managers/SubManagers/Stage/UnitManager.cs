@@ -10,11 +10,56 @@ public class UnitManager : MonoBehaviour
     public IReadOnlyList<Unit> EnemyUnits => _enemyUnits;
 
     [SerializeField] private UnitData[] _unitDatas;
+    private Dictionary<int, UnitData> _unitDataDic;
 
     private void Awake()
     {
         ResetUnitList(_playerUnits);
         ResetUnitList(_enemyUnits);
+        CreateData();
+    }
+
+    private void CreateData()
+    {
+        _unitDataDic = new Dictionary<int, UnitData>();
+
+        foreach(UnitData data in _unitDatas)
+        {
+            _unitDataDic.Add(data.UnitID, data);
+        }
+    }
+
+    public void TrySpawn(int p_unitID)
+    {
+        if (CanSpawn(p_unitID))
+        {
+            SpawnSuccess(p_unitID);
+        }
+        else
+        {
+            SpawnFail();
+        }
+    }
+
+    private void SpawnSuccess(int p_unitID)
+    {
+        SpawnPlayerUnit();
+        StageManager.ResourceBank.UsePlayerResource(_unitDataDic[p_unitID].UnitCost);
+    }
+
+    private void SpawnFail()
+    {
+        Debug.Log("Spawn Fail!");
+    }
+
+    private bool CanSpawn(int p_unitID)
+    {
+        if (StageManager.ResourceBank.Player > _unitDataDic[p_unitID].UnitCost)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private Unit Spawn(SpawnPosition p_spawnPosition, UnitData p_unitData)

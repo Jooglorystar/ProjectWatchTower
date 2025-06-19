@@ -5,8 +5,10 @@ public class StageManager : SingletonObject<StageManager>
 {
     private static UnitManager _unit;
     private static EnemyManager _enemy;
+    private static UnitSpawnResourceBank _resourceBank;
     public static UnitManager Unit => _unit;
     public static EnemyManager Enemy => _enemy;
+    public static UnitSpawnResourceBank ResourceBank => _resourceBank;
 
     private static DefenceCore _playerCore;
     private static DefenceCore _enemyCore;
@@ -28,11 +30,13 @@ public class StageManager : SingletonObject<StageManager>
 
         _unit = GetComponentInChildren<UnitManager>();
         _enemy = GetComponentInChildren<EnemyManager>();
+        _resourceBank = GetComponent<UnitSpawnResourceBank>();
     }
 
     private void OnEnable()
     {
         CreateCores();
+        ResourceBank.Init();
     }
 
     private void CreateCores()
@@ -56,8 +60,6 @@ public class StageManager : SingletonObject<StageManager>
         return createdCore;
     }
 
-
-
     public IDamagable GetTargetFromDictionary(GameObject p_gameObject)
     {
         if (_targetDict.TryGetValue(p_gameObject, out IDamagable p_target))
@@ -66,7 +68,6 @@ public class StageManager : SingletonObject<StageManager>
         }
         return null;
     }
-
 
     public static bool IsGameEnd()
     {
