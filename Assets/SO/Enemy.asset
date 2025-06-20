@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d60706b544ad0649bf1d67b428012b6, type: 3}
   m_Name: Enemy
   m_EditorClassIdentifier: 
+  UnitID: 200001
+  UnitCost: 0
   UnitMaxHealth: 10
   UnitAttack: 1
   UnitAttackDelay: 0.5

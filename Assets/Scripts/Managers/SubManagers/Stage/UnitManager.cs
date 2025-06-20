@@ -9,24 +9,10 @@ public class UnitManager : MonoBehaviour
     public IReadOnlyList<Unit> PlayerUnits => _playerUnits;
     public IReadOnlyList<Unit> EnemyUnits => _enemyUnits;
 
-    [SerializeField] private UnitData[] _unitDatas;
-    private Dictionary<int, UnitData> _unitDataDic;
-
     private void Awake()
     {
         ResetUnitList(_playerUnits);
         ResetUnitList(_enemyUnits);
-        CreateData();
-    }
-
-    private void CreateData()
-    {
-        _unitDataDic = new Dictionary<int, UnitData>();
-
-        foreach(UnitData data in _unitDatas)
-        {
-            _unitDataDic.Add(data.UnitID, data);
-        }
     }
 
     public void TrySpawn(int p_unitID)
@@ -43,8 +29,8 @@ public class UnitManager : MonoBehaviour
 
     private void SpawnSuccess(int p_unitID)
     {
-        SpawnPlayerUnit();
-        StageManager.ResourceBank.UsePlayerResource(_unitDataDic[p_unitID].UnitCost);
+        SpawnPlayerUnit(p_unitID);
+        StageManager.ResourceBank.UsePlayerResource(GameManager.Database.GetUnitData(p_unitID).UnitCost);
     }
 
     private void SpawnFail()
@@ -54,7 +40,7 @@ public class UnitManager : MonoBehaviour
 
     private bool CanSpawn(int p_unitID)
     {
-        if (StageManager.ResourceBank.Player > _unitDataDic[p_unitID].UnitCost)
+        if (StageManager.ResourceBank.Player > GameManager.Database.GetUnitData(p_unitID).UnitCost)
         {
             return true;
         }
@@ -62,22 +48,22 @@ public class UnitManager : MonoBehaviour
         return false;
     }
 
-    private Unit Spawn(SpawnPosition p_spawnPosition, UnitData p_unitData)
+    private Unit Spawn(SpawnPosition p_spawnPosition, int p_unitID)
     {
         Unit unit = GameManager.Object.SpawnUnit();
         unit.gameObject.transform.position = p_spawnPosition.transform.position;
         unit.Movement.SetDirection(p_spawnPosition.UnitDirection);
 
-        unit.SetUnitData(p_unitData);
+        unit.SetUnitData(GameManager.Database.GetUnitData(p_unitID));
 
         StageManager.Instance.TargetDict.Add(unit.gameObject, unit);
 
         return unit;
     }
 
-    public void SpawnPlayerUnit()
+    public void SpawnPlayerUnit(int p_unitID)
     {
-        Unit unit = Spawn(StageManager.Instance.PlayerSpawnPosition, _unitDatas[0]);
+        Unit unit = Spawn(StageManager.Instance.PlayerSpawnPosition, p_unitID);
         unit.SetColor(true);
 
         _playerUnits.Add(unit);
@@ -85,9 +71,9 @@ public class UnitManager : MonoBehaviour
         unit.gameObject.layer = LayerMask.NameToLayer("Player");
     }
 
-    public void SpawnEnemyUnit()
+    public void SpawnEnemyUnit(int p_unitID)
     {
-        Unit unit = Spawn(StageManager.Instance.EnemySpawnPosition, _unitDatas[1]);
+        Unit unit = Spawn(StageManager.Instance.EnemySpawnPosition, p_unitID);
         unit.SetColor(false);
 
         _enemyUnits.Add(unit);

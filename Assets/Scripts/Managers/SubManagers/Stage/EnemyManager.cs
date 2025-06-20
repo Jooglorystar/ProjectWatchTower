@@ -4,6 +4,7 @@ public class EnemyManager : MonoBehaviour
 {
     private float _spawnTimer = 0f;
     [SerializeField] private float _spawnInterval;
+    [SerializeField] private int _enemyID;
 
     private void Awake()
     {
@@ -25,7 +26,7 @@ public class EnemyManager : MonoBehaviour
     {
         if(!StageManager.IsGameEnd())
         {
-            StageManager.Unit.SpawnEnemyUnit();
+            StageManager.Unit.SpawnEnemyUnit(_enemyID);
         }
     }
 }
