@@ -42,7 +42,7 @@ public class UnitManager : SingletonObject<UnitManager>
 
     private bool CanSpawn(int p_unitID)
     {
-        if (StageManager.Instance.ResourceBank.Player > GameManager.Database.GetUnitData(p_unitID).UnitCost)
+        if (StageManager.Instance.ResourceBank.Player >= GameManager.Database.GetUnitData(p_unitID).UnitCost)
         {
             return true;
         }

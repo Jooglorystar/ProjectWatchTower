@@ -27,7 +27,7 @@ public class StageManager : SingletonObject<StageManager>
         _resourceBank = GetComponent<UnitSpawnResourceBank>();
     }
 
-    private void OnEnable()
+    private void Start()
     {
         CreateCores();
         ResourceBank.Init();
