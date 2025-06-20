@@ -3,12 +3,8 @@ using UnityEngine;
 
 public class StageManager : SingletonObject<StageManager>
 {
-    private static UnitManager _unit;
-    private static EnemyManager _enemy;
-    private static UnitSpawnResourceBank _resourceBank;
-    public static UnitManager Unit => _unit;
-    public static EnemyManager Enemy => _enemy;
-    public static UnitSpawnResourceBank ResourceBank => _resourceBank;
+    private UnitSpawnResourceBank _resourceBank;
+    public UnitSpawnResourceBank ResourceBank => _resourceBank;
 
     private static DefenceCore _playerCore;
     private static DefenceCore _enemyCore;
@@ -28,8 +24,6 @@ public class StageManager : SingletonObject<StageManager>
     {
         base.Awake();
 
-        _unit = GetComponentInChildren<UnitManager>();
-        _enemy = GetComponentInChildren<EnemyManager>();
         _resourceBank = GetComponent<UnitSpawnResourceBank>();
     }
 

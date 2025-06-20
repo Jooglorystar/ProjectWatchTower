@@ -8,11 +8,6 @@ public abstract class SingletonObject<T> : MonoBehaviour where T : MonoBehaviour
     {  
         get 
         {
-            if(_instance == null)
-            {
-                GameObject go = new GameObject(typeof(T).Name);
-                go.AddComponent<T>();
-            }
             return _instance; 
         } 
     }

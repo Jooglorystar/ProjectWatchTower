@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitManager : MonoBehaviour
+public class UnitManager : SingletonObject<UnitManager>
 {
     private List<Unit> _playerUnits = new List<Unit>();
     private List<Unit> _enemyUnits = new List<Unit>();
@@ -9,8 +9,10 @@ public class UnitManager : MonoBehaviour
     public IReadOnlyList<Unit> PlayerUnits => _playerUnits;
     public IReadOnlyList<Unit> EnemyUnits => _enemyUnits;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
         ResetUnitList(_playerUnits);
         ResetUnitList(_enemyUnits);
     }
@@ -30,7 +32,7 @@ public class UnitManager : MonoBehaviour
     private void SpawnSuccess(int p_unitID)
     {
         SpawnPlayerUnit(p_unitID);
-        StageManager.ResourceBank.UsePlayerResource(GameManager.Database.GetUnitData(p_unitID).UnitCost);
+        StageManager.Instance.ResourceBank.UsePlayerResource(GameManager.Database.GetUnitData(p_unitID).UnitCost);
     }
 
     private void SpawnFail()
@@ -40,7 +42,7 @@ public class UnitManager : MonoBehaviour
 
     private bool CanSpawn(int p_unitID)
     {
-        if (StageManager.ResourceBank.Player > GameManager.Database.GetUnitData(p_unitID).UnitCost)
+        if (StageManager.Instance.ResourceBank.Player > GameManager.Database.GetUnitData(p_unitID).UnitCost)
         {
             return true;
         }

@@ -26,7 +26,7 @@ public class EnemyManager : MonoBehaviour
     {
         if(!StageManager.IsGameEnd())
         {
-            StageManager.Unit.SpawnEnemyUnit(_enemyID);
+            UnitManager.Instance.SpawnEnemyUnit(_enemyID);
         }
     }
 }

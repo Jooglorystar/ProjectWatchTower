@@ -113,6 +113,6 @@ public class Unit : MonoBehaviour, IDamagable
 
     private void Die()
     {
-        StageManager.Unit.Despawn(this);
+        UnitManager.Instance.Despawn(this);
     }
 }

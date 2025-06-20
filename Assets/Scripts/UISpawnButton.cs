@@ -10,6 +10,6 @@ public class UISpawnButton : UIButton
 
     private void Start()
     {
-        button.onClick.AddListener(() => StageManager.Unit.TrySpawn(100001));
+        button.onClick.AddListener(() => UnitManager.Instance.TrySpawn(100001));
     }
 }
