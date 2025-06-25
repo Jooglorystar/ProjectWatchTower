@@ -29,6 +29,11 @@ public class StageManager : SingletonObject<StageManager>
 
     private void Start()
     {
+        InitStage();
+    }
+
+    private void InitStage()
+    {
         CreateCores();
         ResourceBank.Init();
     }

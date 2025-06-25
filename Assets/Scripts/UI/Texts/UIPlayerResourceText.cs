@@ -1,8 +1,13 @@
 public class UIPlayerResourceText : UITextMeshPro
 {
 
-    private void Start()
+    private void OnEnable()
     {
         StageManager.Instance.ResourceBank.OnPlayerValueChanged += RefreshText;
+    }
+
+    private void OnDisable()
+    {
+        StageManager.Instance.ResourceBank.OnPlayerValueChanged -= RefreshText;
     }
 }
