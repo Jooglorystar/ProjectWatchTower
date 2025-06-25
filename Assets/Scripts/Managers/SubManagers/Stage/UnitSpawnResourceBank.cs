@@ -13,8 +13,6 @@ public class UnitSpawnResourceBank : MonoBehaviour
     public int Player => _playerValue;
     public int Enemy => _enemyValue;
 
-    [SerializeField] private UIPlayerResourceText playervalueText;
-
     public event Action<int> OnPlayerValueChanged;
 
     private void Update()

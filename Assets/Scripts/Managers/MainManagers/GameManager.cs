@@ -8,6 +8,8 @@ public class GameManager : SingletonObject<GameManager>
     public static ObjectManager Object => _object;
     public static DatabaseManager Database => _database;
 
+    public PlayerData PlayerData;
+
     protected override void Awake()
     {
         base.Awake();
@@ -16,6 +18,8 @@ public class GameManager : SingletonObject<GameManager>
         _database = GetComponentInChildren<DatabaseManager>();
 
         DontDestroyOnLoad(this);
+
+        PlayerData = new PlayerData();
 
         Application.targetFrameRate = 60;
     }

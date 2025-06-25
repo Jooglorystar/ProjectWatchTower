@@ -14,7 +14,9 @@ public class StageManager : SingletonObject<StageManager>
     [SerializeField] private UIEndPanel _endPanel;
 
     private Dictionary<GameObject, IDamagable> _targetDict = new Dictionary<GameObject, IDamagable>();
-    
+
+    private PlayerSpawnButtonHandler _playerSpawnButtonHandler;
+
     public SpawnPosition PlayerSpawnPosition => _playerSpawnPosition;
     public SpawnPosition EnemySpawnPosition => _enemySpawnPosition;
 
@@ -25,6 +27,7 @@ public class StageManager : SingletonObject<StageManager>
         base.Awake();
 
         _resourceBank = GetComponent<UnitSpawnResourceBank>();
+        _playerSpawnButtonHandler = GetComponent<PlayerSpawnButtonHandler>();
     }
 
     private void Start()
@@ -36,6 +39,7 @@ public class StageManager : SingletonObject<StageManager>
     {
         CreateCores();
         ResourceBank.Init();
+        _playerSpawnButtonHandler.Init();
     }
 
     private void CreateCores()
