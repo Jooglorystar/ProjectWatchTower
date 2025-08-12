@@ -150,6 +150,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerData:
     PlayerUnits: a18601000000000000000000000000000000000000000000
+  StageData:
+    StageId: 0
+    EnemyCoreHealth: 0
+    CoreDistance: 8
+    EnemyDatas: 
 --- !u!4 &3779147
 Transform:
   m_ObjectHideFlags: 0
@@ -1250,7 +1255,7 @@ GameObject:
   m_Layer: 0
   m_Name: EnemySpawnPosition
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1869,7 +1874,7 @@ GameObject:
   m_Layer: 0
   m_Name: PlayerSpawnPosition
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

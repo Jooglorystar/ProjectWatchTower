@@ -22,6 +22,8 @@ public class StageManager : SingletonObject<StageManager>
 
     public Dictionary<GameObject, IDamagable> TargetDict => _targetDict;
 
+    private StageData _curStageData;
+
     protected override void Awake()
     {
         base.Awake();
@@ -37,6 +39,7 @@ public class StageManager : SingletonObject<StageManager>
 
     private void InitStage()
     {
+        _curStageData = GameManager.Instance.StageData;
         CreateCores();
         ResourceBank.Init();
         _playerSpawnButtonHandler.Init();
@@ -44,8 +47,11 @@ public class StageManager : SingletonObject<StageManager>
 
     private void CreateCores()
     {
+        PlayerSpawnPosition.SetPosition(-(_curStageData.CoreDistance));
         _playerCore = CreateCore(PlayerSpawnPosition);
         _playerCore.gameObject.layer = LayerMask.NameToLayer("Player");
+
+        EnemySpawnPosition.SetPosition(_curStageData.CoreDistance);
         _enemyCore = CreateCore(EnemySpawnPosition);
         _enemyCore.gameObject.layer = LayerMask.NameToLayer("Enemy");
     }

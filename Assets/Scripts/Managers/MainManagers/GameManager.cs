@@ -9,6 +9,7 @@ public class GameManager : SingletonObject<GameManager>
     public static DatabaseManager Database => _database;
 
     public PlayerData PlayerData;
+    public StageData StageData;
 
     protected override void Awake()
     {
